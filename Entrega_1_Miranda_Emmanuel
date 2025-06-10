@@ -1,0 +1,53 @@
+-- Base de datos: Variables Hoteleras
+
+CREATE DATABASE IF NOT EXISTS variables_hoteleras;
+USE variables_hoteleras;
+
+-- Tabla: hotel
+CREATE TABLE hotel (
+    id_hotel INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(50),
+    ciudad VARCHAR(50),
+    marca VARCHAR(30)
+);
+
+-- Tabla: reporte
+CREATE TABLE reporte (
+    id_reporte INT PRIMARY KEY AUTO_INCREMENT,
+    id_hotel INT,
+    fecha DATE,
+    tipo_reporte VARCHAR(10),
+    FOREIGN KEY (id_hotel) REFERENCES hotel(id_hotel)
+);
+
+-- Tabla: indicadores
+CREATE TABLE indicadores (
+    id_indicador INT PRIMARY KEY AUTO_INCREMENT,
+    id_reporte INT,
+    total_rooms INT,
+    rooms_occupied INT,
+    house_use INT,
+    in_house_persons INT,
+    adr DECIMAL(10,2),
+    FOREIGN KEY (id_reporte) REFERENCES reporte(id_reporte)
+);
+
+-- Tabla: ventas
+CREATE TABLE ventas (
+    id_venta INT PRIMARY KEY AUTO_INCREMENT,
+    id_reporte INT,
+    room_revenue DECIMAL(10,2),
+    food_beverage_revenue DECIMAL(10,2),
+    other_revenue DECIMAL(10,2),
+    FOREIGN KEY (id_reporte) REFERENCES reporte(id_reporte)
+);
+
+-- Tabla: metricas
+CREATE TABLE metricas (
+    id_metrica INT PRIMARY KEY AUTO_INCREMENT,
+    id_indicador INT,
+    ocupacion_pct DECIMAL(5,2),
+    doble_ocupacion DECIMAL(5,2),
+    revpar DECIMAL(10,2),
+    FOREIGN KEY (id_indicador) REFERENCES indicadores(id_indicador)
+);
